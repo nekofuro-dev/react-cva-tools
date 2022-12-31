@@ -26,7 +26,11 @@ yarn add class-variance-authority react-cva-tools
 
 ## withVariants
 
-create a `Button` component
+```ts
+withVariants(component: React.ElementType, ...cvaArgs: Parameters<typeof cva>)
+```
+
+create a `Button` component with 'button'
 
 ```tsx
 // components/Button.tsx
@@ -80,6 +84,22 @@ export const Button = withVariants('button', ['btn', 'font-bold'], {
 >
   click
 </button>
+```
+
+### We can add variants to custom components too
+
+```tsx
+export const Box: FC<ComponentPropsWithoutRef<'div'>> = ({ ...props }) => (
+  <div {...props} />
+);
+
+export const FlexBox = withVariants(Box, null, {
+  variants: {
+    flex: {
+      row: 'flex flex-row',
+    },
+  },
+});
 ```
 
 ## withDefaultVariants

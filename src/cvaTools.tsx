@@ -1,4 +1,5 @@
 import type { cva as _cva, VariantProps } from 'class-variance-authority';
+import type { ClassProp } from 'class-variance-authority/dist/types';
 import { cva } from 'class-variance-authority';
 import React, { ComponentPropsWithoutRef, FC } from 'react';
 
@@ -70,7 +71,8 @@ export const withDefaultVariants = <
   RefType
 >(
   component: ComponentType,
-  defaultVariants: ComponentPropsWithoutRef<ComponentType>['variants']
+  defaultVariants: ComponentPropsWithoutRef<ComponentType>['variants'] &
+    ClassProp
 ) => {
   return React.forwardRef<RefType, ComponentPropsWithoutRef<ComponentType>>(
     (props, ref) => {

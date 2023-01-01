@@ -22,6 +22,18 @@ npm i class-variance-authority react-cva-tools
 yarn add class-variance-authority react-cva-tools
 ```
 
+## Tailwind CSS IntelliSense (ref: [joe-bell/cva](https://github.com/joe-bell/cva#tailwind-css-intellisense))
+
+For Tailwind CSS IntelliSense Vscode extension, you can add the following to you setting.json
+
+```json
+  "tailwindCSS.experimental.classRegex": [
+    ["cva\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]"],
+    ["withCva\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)"],
+    ["withVariants\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)"],
+  ]
+```
+
 # Examples
 
 ## withVariants

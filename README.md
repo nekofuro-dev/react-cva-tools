@@ -88,7 +88,7 @@ export const Button = withVariants('button', ['btn', 'font-bold'], {
   click
 </Button>
 ```
-
+Result
 ```html
 <button
   id="a-btn"
@@ -132,7 +132,7 @@ export const CircleButton = withDefaultVariants(Button, {
 ```tsx
 <CircleButton className="test" />
 ```
-
+Result
 ```html
 <button
   class="btn font-bold py-1 px-2 rounded-full shadow test w-12 h-12"
@@ -188,7 +188,7 @@ export const Button = withCva('button', buttonCva);
   click
 </Button>
 ```
-
+Result
 ```html
 <button
   id="a-btn"

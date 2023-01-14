@@ -2,7 +2,6 @@ import React, {
   ComponentPropsWithoutRef,
   ElementType,
   ReactElement,
-  createRef,
 } from 'react';
 import { FCRefType } from './types';
 

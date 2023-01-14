@@ -1,6 +1,6 @@
 import { cva } from 'class-variance-authority';
 import { ClassProp } from 'class-variance-authority/dist/types';
-import {
+import React, {
   ComponentPropsWithoutRef,
   ElementType,
   FC,
@@ -31,18 +31,20 @@ type VariantsComponentPropsWithRef<
  */
 export const withCva = <
   VariantsType,
-  ComponentType extends ElementType,
+  DefaultComponentType extends ElementType,
   CvaType extends CvaReturnType<VariantsType> = CvaReturnType<VariantsType>
 >(
-  component: ComponentType,
+  component: DefaultComponentType,
   customCva: CvaType
 ) => {
-  const variantsFc = (
-    props: VariantsComponentPropsWithoutRef<ComponentType, CvaType>,
+  const variantsFc = <ComponentType extends ElementType = DefaultComponentType>(
+    props: VariantsComponentPropsWithoutRef<ComponentType, CvaType> & {
+      as?: ComponentType;
+    },
     ref: FCRefType<ComponentType>
   ) => {
-    const Component: ElementType | JSX.IntrinsicElements = component;
-    const { variants, ...componentProps } = props;
+    const { variants, as, ...componentProps } = props;
+    const Component: ElementType | JSX.IntrinsicElements = as ?? component;
     const cvaParams: any = {
       ...variants,
       class: componentProps.className,
@@ -55,8 +57,12 @@ export const withCva = <
       />
     );
   };
-  return forwardRef(variantsFc) as (
-    p: VariantsComponentPropsWithRef<ComponentType, CvaType>
+  return forwardRef(variantsFc) as <
+    T extends ElementType = DefaultComponentType
+  >(
+    p: VariantsComponentPropsWithRef<T, CvaType> & {
+      as?: T;
+    }
   ) => ReactElement;
 };
 

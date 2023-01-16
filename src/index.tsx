@@ -1,38 +1,36 @@
 import { cva } from 'class-variance-authority';
-import { ClassProp } from 'class-variance-authority/dist/types';
-import React, {
+import {
   ComponentPropsWithoutRef,
   ElementType,
-  FC,
   ReactElement,
   forwardRef,
 } from 'react';
 import {
   CvaParameters,
   CvaReturnType,
-  WithCvaVariant,
   FCRefType,
+  WithCvaVariant,
 } from './types';
 
 type VariantsComponentPropsWithoutRef<
   ComponentType extends ElementType<any>,
   CvaType extends (...args: any) => any
-> = ComponentPropsWithoutRef<ComponentType> & WithCvaVariant<CvaType>;
+> = WithCvaVariant<CvaType> & ComponentPropsWithoutRef<ComponentType>;
 
 type VariantsComponentPropsWithRef<
   ComponentType extends ElementType<any>,
   CvaType extends (...args: any) => any
-> = VariantsComponentPropsWithoutRef<ComponentType, CvaType> & {
+> = {
   ref?: FCRefType<ComponentType>;
-};
+} & VariantsComponentPropsWithoutRef<ComponentType, CvaType>;
 
 /**
  * add VariantsProps of [customCva] to [component]
  */
 export const withCva = <
-  VariantsType,
+  CvaOptionType,
   DefaultComponentType extends ElementType,
-  CvaType extends CvaReturnType<VariantsType> = CvaReturnType<VariantsType>
+  CvaType extends CvaReturnType<CvaOptionType> = CvaReturnType<CvaOptionType>
 >(
   component: DefaultComponentType,
   customCva: CvaType
@@ -77,22 +75,16 @@ export const withVariants = <VariantsType, ComponentType extends ElementType>(
 /**
  * add default variants to [component]
  */
-export const withDefaultVariants = <
-  ComponentType extends FC<WithCvaVariant>,
-  RefType
->(
-  component: ComponentType,
-  defaultVariants: ComponentPropsWithoutRef<ComponentType>['variants'] &
-    ClassProp
+export const withDefaultVariants = <C extends ReturnType<typeof withCva>>(
+  component: C,
+  defaultVariants: Parameters<C>[0]['variants']
 ) => {
-  return forwardRef<RefType, ComponentPropsWithoutRef<ComponentType>>(
-    (props, ref) => {
-      const variants = {
-        ...defaultVariants,
-        ...props.variants,
-      };
-      const Component: ElementType | JSX.IntrinsicElements = component;
-      return <Component ref={ref} {...props} variants={variants} />;
-    }
-  );
+  return forwardRef(<T,>(props: Parameters<C>[0], ref: FCRefType<C>) => {
+    const finalVariants = {
+      ...defaultVariants,
+      ...props.variants,
+    };
+    const Component: ElementType = component;
+    return <Component {...props} ref={ref} variants={finalVariants} />;
+  }) as unknown as C;
 };

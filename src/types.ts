@@ -1,4 +1,5 @@
 import type { VariantProps, cva as _cva } from 'class-variance-authority';
+import { ComponentPropsWithRef, ElementType } from 'react';
 
 // ref: https://github.com/microsoft/TypeScript/issues/42873
 // The inferred type of "X" cannot be named without a reference to "Y". This is likely not portable. A type annotation is necessary.
@@ -11,3 +12,4 @@ export type WithCvaVariant<
 > = {
   variants?: _VariantProps<T>;
 };
+export type FCRefType<T extends ElementType> = ComponentPropsWithRef<T>['ref'];

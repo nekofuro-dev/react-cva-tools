@@ -1,5 +1,5 @@
 import { cva } from 'class-variance-authority';
-import {
+import React, {
   ComponentPropsWithoutRef,
   ElementType,
   ReactElement,

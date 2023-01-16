@@ -77,9 +77,9 @@ export const withVariants = <VariantsType, ComponentType extends ElementType>(
  */
 export const withDefaultVariants = <C extends ReturnType<typeof withCva>>(
   component: C,
-  defaultVariants: Parameters<C>[0]['variants']
+  defaultVariants: Parameters<C>[0]['variants'] & { className?: string }
 ) => {
-  return forwardRef(<T,>(props: Parameters<C>[0], ref: FCRefType<C>) => {
+  return forwardRef((props: Parameters<C>[0], ref: FCRefType<C>) => {
     const finalVariants = {
       ...defaultVariants,
       ...props.variants,
